@@ -1,0 +1,23 @@
+import sys
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QLineEdit, QVBoxLayout
+
+class ScreenLocker(QWidget):
+    def __init__(self):
+        super().__init__()
+
+        self.label = QLabel("Please enter 'ok' to unlock the screen")
+        self.textbox = QLineEdit()
+        self.textbox.textChanged.connect(self.check_input)
+        self.layout = QVBoxLayout()
+        self.layout.addWidget(self.label)
+        self.layout.addWidget(self.textbox)
+        self.setLayout(self.layout)
+
+    def check_input(self, text):
+        if text == "ok":
+            sys.exit()
+
+app = QApplication([])
+locker = ScreenLocker()
+locker.show()
+sys.exit(app.exec_())
