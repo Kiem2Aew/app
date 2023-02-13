@@ -1,0 +1,11 @@
+@echo off
+
+:: Execute the exe file
+start "" /wait myexe.exe > myoutput.txt
+
+:: Use the output as an argument for the cURL request
+for /f "usebackq tokens=*" %%a in (`type myoutput.txt`) do set "output=%%a"
+curl -X POST "https://www.example.com/api" -H "Content-Type: application/json" -d "{\"arg\":\"%output%\"}"
+
+:: Clean up
+del myoutput.txt
