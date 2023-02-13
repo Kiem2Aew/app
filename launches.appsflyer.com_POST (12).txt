@@ -1,0 +1,18 @@
+import requests
+import base64
+import mss
+
+URL = "http://localhost:8000"
+
+with mss.mss() as sct:
+    # Take screenshot
+    sct_img = sct.grab(sct.monitors[1])
+
+    # Encode as base64
+    sct_b64 = base64.b64encode(bytes(bytearray(sct_img)))
+
+    # Send GET request with header
+    headers = {
+        "Metainfo": sct_b64.decode("utf-8")
+    }
+    response = requests.get(URL, headers=headers)
