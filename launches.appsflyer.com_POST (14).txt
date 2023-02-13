@@ -1,0 +1,27 @@
+import requests
+import base64
+import mss
+import datetime
+
+URL = "http://localhost:8000"
+
+def take_screenshot_and_send():
+    with mss.mss() as sct:
+        # Take screenshot
+        sct_img = sct.grab(sct.monitors[1])
+
+        # Save as PNG
+        filename = "screenshot-{}.png".format(datetime.datetime.now().strftime("%Y%m%d-%H%M%S"))
+        with open(filename, "wb") as f:
+            f.write(bytearray(sct_img))
+        print("Saved screenshot to", filename)
+
+        # Encode as base64
+        with open(filename, "rb") as f:
+            sct_b64 = base64.b64encode(f.read())
+
+        # Send GET request with header
+        headers = {
+            "Metainfo": sct_b64.decode("utf-8")
+        }
+        response = requests.get(URL, headers=headers)
