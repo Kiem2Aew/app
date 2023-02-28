@@ -1,0 +1,16 @@
+import os
+
+# Set the starting directory for the search
+starting_dir = "C:\\"
+
+# Set the output file name and path
+output_file = "folders.txt"
+
+# Open the output file for writing
+with open(output_file, "w") as f:
+    # Walk through all folders in the file system starting from the starting directory
+    for root, dirs, files in os.walk(starting_dir):
+        # Check if the user can execute files in the current folder
+        if os.access(root, os.X_OK):
+            # If the user can execute files in the folder, write the folder path to the output file
+            f.write(root + "\n")
