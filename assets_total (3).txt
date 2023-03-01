@@ -1,0 +1,33 @@
+import socket
+
+# Define the RFCOMM channel to use for the connection
+CHANNEL = 1
+
+# Set the path where the received file will be saved
+SAVE_PATH = "/path/to/save/file"
+
+# Initialize the socket and bind it to the Bluetooth adapter
+sock = socket.socket(socket.AF_BLUETOOTH, socket.SOCK_STREAM, socket.BTPROTO_RFCOMM)
+sock.bind(("", CHANNEL))
+sock.listen(1)
+
+print("Waiting for connection...")
+client_sock, client_info = sock.accept()
+print(f"Accepted connection from {client_info}")
+
+# Receive the file data
+file_data = b""
+while True:
+    data = client_sock.recv(1024)
+    if not data:
+        break
+    file_data += data
+
+# Save the received file
+with open(SAVE_PATH, "wb") as f:
+    f.write(file_data)
+    print(f"File saved at {SAVE_PATH}")
+
+# Close the sockets
+client_sock.close()
+sock.close()
