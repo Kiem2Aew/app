@@ -1,27 +1,35 @@
-import os
-import sys
-import glob
-from bluetooth import *
+import subprocess
 
-# Specify the path of the file to be sent
-file_path = '/path/to/file'
+# Prompt the user to select a file to send
+file_path = input("Enter the path of the file you want to send: ")
 
-# Search for nearby Bluetooth devices
-nearby_devices = discover_devices()
+# Use AppleScript to automate the file transfer via Bluetooth
+script = """
+tell application "Finder"
+	set theFile to POSIX file "{file_path}" as alias
+end tell
 
-# Select the first device in the list (you can modify this based on your needs)
-target_device = nearby_devices[0]
+tell application "System Events"
+	tell process "Finder"
+		set frontmost to true
+		keystroke "b" using {command down, shift down}
+		delay 1
+		keystroke return
+		delay 1
+		keystroke tab
+		delay 1
+		keystroke tab
+		delay 1
+		keystroke tab
+		delay 1
+		keystroke return
+		delay 1
+		keystroke "{file_path}"
+		delay 1
+		key code 48
+	end tell
+end tell
+""".format(file_path=file_path)
 
-# Create a Bluetooth socket
-sock = BluetoothSocket(RFCOMM)
-
-# Connect to the target device
-sock.connect((target_device, 1))
-
-# Send the file to the target device
-with open(file_path, 'rb') as f:
-    data = f.read()
-    sock.sendall(data)
-
-# Close the socket
-sock.close()
+# Execute the AppleScript using the osascript command
+subprocess.call(['osascript', '-e', script])
